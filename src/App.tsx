@@ -7,7 +7,7 @@ const App = () => {
     <div
       style={{
         margin: "0 auto",
-        width: "900px",
+        width: "700px",
         height: "200px",
         paddingTop: "100px",
       }}>

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { scaleTime, scaleLinear } from "@vx/scale";
-// import { scaleUtc, scaleLinear, scaleLog, scaleBand } from "@vx/scale";
+// import { scaleTime } from "@vx/scale";
+import { scaleUtc, scaleTime, scaleLinear, scaleLog, scaleBand } from "@vx/scale";
 import appleStock, { AppleStock } from "@vx/mock-data/lib/mocks/appleStock";
 import { Brush } from "@vx/brush";
 import { PatternLines } from "@vx/pattern";
@@ -57,7 +57,7 @@ function BrushChart({
     setFilteredStock(stockCopy);
   };
 
-  // console.log("data  " + filteredStock.map((d) => d.close));
+  console.log("data  " + filteredStock.map((d) => d.close));
 
   const ChartHeight = height - margin.top - margin.bottom;
 
@@ -91,21 +91,6 @@ function BrushChart({
     }),
     [brushDateScale]
   );
-
-  const scales: {
-    scale: Scale;
-    values: ScaleInput[];
-    label: string;
-    tickFormat: (value: ScaleInput, idx: number) => string | number;
-  } = {
-    scale: scaleLinear({
-      domain: [0, 10],
-      range: [0, width],
-    }),
-    values: [0, 2, 4, 6, 8, 10],
-    tickFormat: (v: number) => v,
-    label: "linear",
-  };
 
   return (
     <div>

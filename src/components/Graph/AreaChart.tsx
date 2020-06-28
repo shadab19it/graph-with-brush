@@ -15,7 +15,7 @@ const axisBottomTickLabelProps = {
   fontSize: 10,
   fill: axisColor,
 };
-type Scale = any;
+
 type ScaleInput = any;
 
 // accessors
