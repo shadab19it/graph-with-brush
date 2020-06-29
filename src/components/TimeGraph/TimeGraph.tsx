@@ -38,9 +38,6 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
     nice: true,
   });
 
-  const getDate = (d: number) => d;
-  const getStockValue = (d: number) => d;
-
   TimeLineScale.rangeRound([0, graphWidth]);
   // TimeLineScale.range([0, duration]);
 
