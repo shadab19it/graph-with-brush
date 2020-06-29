@@ -38,7 +38,7 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
     nice: true,
   });
 
-  TimeLineScale.rangeRound([0, graphWidth]);
+  TimeLineScale.rangeRound([0, duration]);
   // TimeLineScale.range([0, duration]);
 
   const xScaleBrush = useMemo(
