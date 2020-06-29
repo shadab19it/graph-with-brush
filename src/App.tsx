@@ -1,17 +1,23 @@
 import React from "react";
-import Graph from "./components/Graph/Graph";
 import { ParentSize } from "@vx/responsive";
+import TimeGraph from "./components/TimeGraph/TimeGraph";
 
 const App = () => {
   return (
     <div
       style={{
         margin: "0 auto",
-        width: "700px",
-        height: "200px",
+        width: "80vw",
+        height: "150px",
         paddingTop: "100px",
       }}>
-      <ParentSize>{({ width, height }) => <Graph width={width} height={height} />}</ParentSize>
+      <ParentSize>
+        {({ width, height }) => <TimeGraph width={width} height={height} bgColor='#f0f0f0' duration={10} barColor='#17b978' />}
+      </ParentSize>
+      <div style={{ padding: "20px 0" }}></div>
+      <ParentSize>
+        {({ width, height }) => <TimeGraph width={width} height={height} bgColor='#f0f0f0' duration={800} barColor='red' />}
+      </ParentSize>
     </div>
   );
 };
