@@ -35,7 +35,7 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
 
   const TimeLineScale = scaleLinear<number>({
     domain: [0, duration],
-    range: [-1, duration],
+    range: [0, duration],
     nice: false,
   });
 
@@ -64,7 +64,7 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
     const { x0, x1 } = domain;
 
     const startTime = Math.round(x0);
-    const endTime = Math.floor(x1);
+    const endTime = Math.round(x1);
     setFilteredData({ startTime, endTime });
 
     console.log(filteredData);
