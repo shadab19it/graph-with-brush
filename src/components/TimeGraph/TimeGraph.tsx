@@ -1,7 +1,5 @@
 import React, { useState, useMemo, FC } from "react";
 import { scaleUtc, scaleTime, scaleLinear, scaleLog, scaleBand, scaleOrdinal } from "@vx/scale";
-import appleStock, { AppleStock } from "@vx/mock-data/lib/mocks/appleStock";
-import cityTemperature, { CityTemperature } from "@vx/mock-data/lib/mocks/cityTemperature";
 import { Brush } from "@vx/brush";
 import { Bar } from "@vx/shape";
 import { Group } from "@vx/group";
@@ -26,20 +24,25 @@ const selectedBrushStyle = {
 };
 
 const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, duration, bgColor, barColor }) => {
-  const [filteredData, setFilteredData] = useState();
-
-  const TimeLineScale = scaleLinear<number>({
-    domain: [0, duration],
-    nice: true,
+  const [filteredData, setFilteredData] = useState({
+    startTime: 0,
+    endTime: 0,
   });
 
   const graphHeight = height - margin.top - margin.bottom;
   const graphWidth = width - margin.left - margin.right;
 
+  const TimeLineScale = scaleLinear<number>({
+    domain: [0, duration],
+    range: [0, duration],
+    nice: true,
+  });
+
   const getDate = (d: number) => d;
   const getStockValue = (d: number) => d;
 
   TimeLineScale.rangeRound([0, graphWidth]);
+  // TimeLineScale.range([0, duration]);
 
   const xScaleBrush = useMemo(
     () =>
@@ -49,6 +52,7 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
       }),
     []
   );
+  xScaleBrush.range([0, duration]);
   const yScaleBrush = useMemo(
     () =>
       scaleLinear({
@@ -61,24 +65,19 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
   const onBrushChange = (domain: Bounds | null) => {
     if (!domain) return;
     const { x0, x1 } = domain;
-    const start = x0;
-    const end = x1;
-    // return x > x0 && x < x1 && y > y0 && y < y1;
 
-    const range = end - start;
+    const startTime = Math.floor(x0);
+    const endTime = Math.floor(x1);
+    setFilteredData({ startTime, endTime });
 
-    console.log(domain);
-    console.log(range);
-
-    // console.log("start " + start);
-    // console.log("endTime " + end);
+    console.log(filteredData);
   };
 
   return (
     <div style={{ backgroundColor: bgColor }}>
       <svg width={width} height={height}>
         {/* <PatternLines id='Hr-lines' height={5} width={graphWidth / 8} stroke='black' strokeWidth={0.5} orientation={["vertical"]} /> */}
-        <rect x={5} y={2} width={graphWidth} height={graphHeight} fill='url(#Hr-lines)' rx={0} />
+        <rect x={0} y={0} width={width} height={graphHeight} fill='url(#Hr-lines)' rx={0} />
         <Group top={margin.top} left={margin.left}>
           <Bar x={0} y={graphHeight / 2} width={graphWidth} height={3} fill={barColor} />
           <Brush
@@ -86,7 +85,6 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
             yScale={yScaleBrush}
             width={graphWidth}
             height={graphHeight}
-            margin={margin}
             handleSize={8}
             resizeTriggerAreas={["left", "right"]}
             brushDirection='horizontal'
