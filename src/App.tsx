@@ -12,11 +12,11 @@ const App = () => {
         paddingTop: "100px",
       }}>
       <ParentSize>
-        {({ width, height }) => <TimeGraph width={width} height={height} bgColor='#f0f0f0' duration={500} barColor='#17b978' />}
+        {({ width, height }) => <TimeGraph width={width} height={height} bgColor='#f0f0f0' duration={Number(500)} barColor='#17b978' />}
       </ParentSize>
       <div style={{ padding: "20px 0" }}></div>
       <ParentSize>
-        {({ width, height }) => <TimeGraph width={width} height={height} bgColor='#f0f0f0' duration={800} barColor='red' />}
+        {({ width, height }) => <TimeGraph width={width} height={height} bgColor='#f0f0f0' duration={Number(800)} barColor='red' />}
       </ParentSize>
     </div>
   );

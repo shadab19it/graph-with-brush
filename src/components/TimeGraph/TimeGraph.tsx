@@ -11,7 +11,7 @@ import { max, extent } from "d3-array";
 export type BrushProps = {
   width: number;
   height: number;
-  duration?: any;
+  duration: number;
   bgColor?: string;
   barColor: string;
   margin?: { top: number; right: number; bottom: number; left: number };
