@@ -1,12 +1,11 @@
 import React, { useState, useMemo, FC } from "react";
-import { scaleUtc, scaleTime, scaleLinear, scaleLog, scaleBand, scaleOrdinal } from "@vx/scale";
+import { scaleLinear } from "@vx/scale";
 import { Brush } from "@vx/brush";
 import { Bar } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom } from "@vx/axis";
 import { PatternLines } from "@vx/pattern";
 import { Bounds } from "@vx/brush/lib/types";
-import { max, extent } from "d3-array";
 
 export type BrushProps = {
   width: number;
@@ -18,6 +17,8 @@ export type BrushProps = {
 };
 
 const defaultMargin = { top: 10, left: 40, right: 40, bottom: 30 };
+
+const brushMargin = { top: 10, left: 50, right: 40, bottom: 30 };
 const selectedBrushStyle = {
   fill: "#000",
   fillOpacity: 0.8,
@@ -34,12 +35,11 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
 
   const TimeLineScale = scaleLinear<number>({
     domain: [0, duration],
-    range: [0, duration],
-    nice: true,
+    range: [-1, duration],
+    nice: false,
   });
 
-  TimeLineScale.rangeRound([0, duration]);
-  // TimeLineScale.range([0, duration]);
+  TimeLineScale.rangeRound([0, graphWidth]);
 
   const xScaleBrush = useMemo(
     () =>
@@ -63,7 +63,7 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
     if (!domain) return;
     const { x0, x1 } = domain;
 
-    const startTime = Math.floor(x0);
+    const startTime = Math.round(x0);
     const endTime = Math.floor(x1);
     setFilteredData({ startTime, endTime });
 
@@ -78,10 +78,11 @@ const TimeGraph: FC<BrushProps> = ({ width, height, margin = defaultMargin, dura
         <Group top={margin.top} left={margin.left}>
           <Bar x={0} y={graphHeight / 2} width={graphWidth} height={3} fill={barColor} />
           <Brush
-            xScale={xScaleBrush}
+            xScale={TimeLineScale}
             yScale={yScaleBrush}
             width={graphWidth}
             height={graphHeight}
+            margin={brushMargin}
             handleSize={8}
             resizeTriggerAreas={["left", "right"]}
             brushDirection='horizontal'
